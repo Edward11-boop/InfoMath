@@ -5,6 +5,7 @@ import sorina from '../assets/poza_sorina.jpeg'
 import eduard from '../assets/poza_edi2.jpeg'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import CustomCursor from '@/components/CustomCursor'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -169,7 +170,7 @@ const DespreNoi = () => {
 
   return (
     <div ref={pageRef} className="bg-[#060912] min-h-screen relative overflow-x-hidden">
-
+      <CustomCursor/>
       {/* Animated blobs */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
         <div ref={blob1Ref} className="absolute w-[600px] h-[600px] rounded-full blur-[110px] opacity-35"

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import CustomCursor from '@/components/CustomCursor'
 
 const SUBJECTS = [
   {
@@ -26,7 +27,7 @@ function Programare() {
 
   return (
     <div className="bg-[#060912] min-h-screen relative overflow-x-hidden">
-
+      <CustomCursor/>
       {/* Blobs */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
         <div className="absolute w-[600px] h-[600px] rounded-full blur-[110px] opacity-30"
