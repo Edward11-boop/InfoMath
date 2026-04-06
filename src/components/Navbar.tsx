@@ -13,7 +13,6 @@ function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Închide drawer la schimbare rută
   useEffect(() => {
     setIsOpen(false)
   }, [location])
@@ -39,59 +38,36 @@ function Navbar() {
           from { opacity: 0; transform: translateX(24px); }
           to   { opacity: 1; transform: translateX(0); }
         }
-        @keyframes shimmer {
-          0%   { background-position: -200% center; }
-          100% { background-position:  200% center; }
-        }
         .navbar-wrap {
           animation: slideDown 0.5s cubic-bezier(.22,1,.36,1) both;
         }
         .nav-link {
           position: relative;
-          color: rgba(255,255,255,0.75);
-          font-size: 1rem;
+          color: rgba(255,255,255,0.55);
+          font-size: 0.95rem;
           font-weight: 500;
-          letter-spacing: 0.04em;
+          letter-spacing: 0.02em;
           text-decoration: none;
-          padding: 6px 0;
-          transition: color 0.25s;
+          padding: 8px 18px;
+          border-radius: 999px;
+          transition: color 0.25s, background 0.25s;
+          white-space: nowrap;
         }
-        .nav-link::after {
-          content: '';
-          position: absolute;
-          bottom: 0; left: 0;
-          width: 0; height: 1.5px;
-          background: linear-gradient(90deg, #818cf8, #c084fc, #818cf8);
-          background-size: 200% auto;
-          border-radius: 99px;
-          transition: width 0.35s cubic-bezier(.22,1,.36,1);
-        }
-        .nav-link:hover { color: #fff; }
-        .nav-link:hover::after {
-          width: 100%;
-          animation: shimmer 1.5s linear infinite;
+        .nav-link:hover {
+          color: rgba(255,255,255,0.85);
         }
         .nav-link.active {
           color: #fff;
+          background: rgba(255,255,255,0.15);
+          box-shadow: inset 0 1px 1px rgba(255,255,255,0.25), 0 2px 8px rgba(0,0,0,0.2);
         }
-        .nav-link.active::after {
-          width: 100%;
-          background: linear-gradient(90deg, #818cf8, #c084fc);
-        }
-        .hamburger-btn {
-          width: 40px; height: 40px;
-          border-radius: 10px;
-          border: 1px solid rgba(255,255,255,0.15);
-          background: rgba(255,255,255,0.05);
-          display: flex; align-items: center; justify-content: center;
-          color: white;
-          cursor: pointer;
-          transition: background 0.2s, border-color 0.2s, transform 0.15s;
-        }
-        .hamburger-btn:hover {
-          background: rgba(255,255,255,0.12);
-          border-color: rgba(255,255,255,0.3);
-          transform: scale(1.05);
+        .logo-text {
+          background: linear-gradient(135deg, #fff 40%, #a5b4fc);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          font-weight: 700;
+          letter-spacing: -0.02em;
         }
         .drawer {
           animation: drawerIn 0.45s cubic-bezier(.22,1,.36,1) both;
@@ -103,7 +79,6 @@ function Navbar() {
           color: rgba(255,255,255,0.7);
           font-size: 1.1rem;
           font-weight: 500;
-          letter-spacing: 0.05em;
           text-decoration: none;
           padding: 14px 16px;
           border-radius: 12px;
@@ -151,37 +126,29 @@ function Navbar() {
           background: rgba(0,0,0,0.35);
           backdrop-filter: blur(2px);
           z-index: 49;
-          animation: fadeInLink 0.3s ease both;
-        }
-        .logo-text {
-          background: linear-gradient(135deg, #fff 40%, #a5b4fc);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          font-weight: 700;
-          letter-spacing: -0.02em;
         }
       `}</style>
 
-      <nav className="navbar-wrap flex flex-1 mt-2 px-6">
+      <nav className="navbar-wrap  flex justify-center mt-4 px-6">
         <div
-          className="w-full flex items-center justify-between p-4 rounded-2xl border"
+          className="flex items-center justify-between px-2 py-2 rounded-full"
           style={{
-            background: scrolled ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.06)',
-            borderColor: 'rgba(255,255,255,0.12)',
-            boxShadow: scrolled
-              ? '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1)'
-              : '0 4px 24px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.08)',
+            background: scrolled ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.07)',
+            border: '1px solid rgba(255,255,255,0.12)',
+            boxShadow: '0 4px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.1)',
             backdropFilter: 'blur(20px)',
             transition: 'all 0.4s ease',
+            width: '100%',
+            maxWidth: '700px',
           }}
         >
           {/* Logo */}
-          <Link to="/" className="logo-text text-2xl" style={{ textDecoration: 'none' }}>
-            CrazyMath
+          <Link to="/" className="logo-text text-xl pl-3" style={{ textDecoration: 'none', flexShrink: 0 }}>
+            InfoMath
           </Link>
 
-          <div className="hidden md:flex items-center gap-8">
+          {/* Linkuri desktop */}
+          <div className="hidden md:flex items-center gap-1">
             {links.map(({ to, label }) => (
               <Link
                 key={to}
@@ -193,31 +160,26 @@ function Navbar() {
             ))}
           </div>
 
-          {/* Hamburger - doar sub md */}
+          {/* Hamburger mobile */}
           <button
-            className="flex md:hidden"
+            className="md:hidden mr-1 flex items-center justify-center"
             onClick={() => setIsOpen(true)}
             style={{
-              width: 40, height: 40,
-              borderRadius: 10,
+              width: 38, height: 38,
+              borderRadius: 999,
               border: '1px solid rgba(255,255,255,0.15)',
-              background: 'rgba(255,255,255,0.05)',
-              alignItems: 'center', justifyContent: 'center',
+              background: 'rgba(255,255,255,0.07)',
               color: 'white',
               cursor: 'pointer',
             }}
           >
-            <Menu size={20} />
+            <Menu size={18} />
           </button>
         </div>
       </nav>
 
-      {/* Overlay */}
-      {isOpen && (
-        <div className="overlay" onClick={() => setIsOpen(false)} />
-      )}
+      {isOpen && <div className="overlay" onClick={() => setIsOpen(false)} />}
 
-      {/* Drawer */}
       {isOpen && (
         <div
           className="drawer fixed top-0 right-0 h-full z-50 flex flex-col"
@@ -230,12 +192,8 @@ function Navbar() {
             padding: '24px 20px',
           }}
         >
-          {/* Header drawer */}
           <div className="flex items-center justify-between mb-10">
-            <span
-              className="logo-text"
-              style={{ fontSize: '1.2rem', fontWeight: 700 }}
-            >
+            <span className="logo-text" style={{ fontSize: '1.2rem', fontWeight: 700 }}>
               CrazyMath
             </span>
             <button className="close-btn" onClick={() => setIsOpen(false)}>
@@ -243,21 +201,18 @@ function Navbar() {
             </button>
           </div>
 
-          {/* Separator */}
           <div style={{
             height: '1px',
             background: 'linear-gradient(90deg, rgba(129,140,248,0.5), transparent)',
             marginBottom: '24px',
           }} />
 
-          {/* Linkuri */}
           <div className="flex flex-col gap-2">
             {links.map(({ to, label }) => (
               <Link
                 key={to}
                 to={to}
                 className={`drawer-link ${location.pathname === to ? 'active' : ''}`}
-                onClick={() => setIsOpen(false)}
               >
                 <span className="dot-badge" />
                 {label}
@@ -265,16 +220,11 @@ function Navbar() {
             ))}
           </div>
 
-          {/* Footer drawer */}
-          <div
-            className="mt-auto pt-6"
-            style={{
-              borderTop: '1px solid rgba(255,255,255,0.06)',
-              fontSize: '0.75rem',
-              color: 'rgba(255,255,255,0.25)',
-              letterSpacing: '0.05em',
-            }}
-          >
+          <div className="mt-auto pt-6" style={{
+            borderTop: '1px solid rgba(255,255,255,0.06)',
+            fontSize: '0.75rem',
+            color: 'rgba(255,255,255,0.25)',
+          }}>
             © 2026 CrazyMath
           </div>
         </div>
